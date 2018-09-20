@@ -35,7 +35,7 @@ def bishopcost(position, samecolourpiece, differentcolourpiece):
 	x = position[0]
 	y = position[1]
 	found = false
-	while(x < 8 && y < 8 && !found):
+	while(x < 8 and y < 8 and not found):
 		x += 1
 		y += 1
 		if ((x, y) in samecolourpiece):
@@ -49,7 +49,7 @@ def bishopcost(position, samecolourpiece, differentcolourpiece):
 	x = position[0]
 	y = position[1]
 	found = false
-	while(x < 8 && y > 1 && !found):
+	while(x < 8 and y > 1 and not found):
 		x += 1
 		y -= 1
 		if ((x, y) in samecolourpiece):
@@ -63,7 +63,7 @@ def bishopcost(position, samecolourpiece, differentcolourpiece):
 	x = position[0]
 	y = position[1]
 	found = false
-	while(x > 1 && y > 1 && !found):
+	while(x > 1 and y > 1 and not found):
 		x -= 1
 		y -= 1
 		if ((x, y) in samecolourpiece):
@@ -77,7 +77,7 @@ def bishopcost(position, samecolourpiece, differentcolourpiece):
 	x = position[0]
 	y = position[1]
 	found = false
-	while(x > 1 && y < 8 && !found):
+	while(x > 1 and y < 8 and not found):
 		x -= 1
 		y += 1
 		if ((x, y) in samecolourpiece):
@@ -97,7 +97,7 @@ def rookcost(position, samecolourpiece, differentcolourpiece):
 	x = position[0]
 	y = position[1]
 	found = false
-	while(x < 8 && !found):
+	while(x < 8 and not found):
 		x += 1
 		if ((x, y) in samecolourpiece):
 			found = true
@@ -110,7 +110,7 @@ def rookcost(position, samecolourpiece, differentcolourpiece):
 	x = position[0]
 	y = position[1]
 	found = false
-	while(x > 1 && !found):
+	while(x > 1 and not found):
 		x -= 1
 		if ((x, y) in samecolourpiece):
 			found = true
@@ -123,7 +123,7 @@ def rookcost(position, samecolourpiece, differentcolourpiece):
 	x = position[0]
 	y = position[1]
 	found = false
-	while(y < 8 && !found):
+	while(y < 8 and not found):
 		y += 1
 		if ((x, y) in samecolourpiece):
 			found = true
@@ -136,7 +136,7 @@ def rookcost(position, samecolourpiece, differentcolourpiece):
 	x = position[0]
 	y = position[1]
 	found = false
-	while(y > 1 && !found):
+	while(y > 1 and not found):
 		y -= 1
 		if ((x, y) in samecolourpiece):
 			found = true
