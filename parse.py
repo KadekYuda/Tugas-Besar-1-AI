@@ -17,10 +17,10 @@ def parse_file(filename):
 
         if color == 'WHITE':
             for i in range(num):
-                white_pieces.append('W' + piece_type[0])
+                white_pieces.append(piece_type[0])
         else:
             for i in range(num):
-                black_pieces.append('B' + piece_type[0])
+                black_pieces.append(piece_type[0])
 
     # Assign location to each piece
     white_locs, black_locs = place_pieces(white_pieces, black_pieces)
