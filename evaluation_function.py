@@ -1,7 +1,8 @@
 def eval(blackpiece, blackpos, whitepiece, whitepos):
+	# TODO: ganti urutan fungsinya jadi sesuai urutan di tuple
 	#Mengecek jumlah warna sama dan berbeda yang saling menyerang dan dikeluarkan dalam samecost, differentcost
-	samecost = 0;
-	differentcost = 0;
+	samecost = 0
+	differentcost = 0
 
 
 	for i, piece in enumerate(blackpiece):
@@ -34,57 +35,57 @@ def bishopcost(position, samecolourpiece, differentcolourpiece):
 	#Up-Right
 	x = position[0]
 	y = position[1]
-	found = false
+	found = False
 	while(x < 8 and y < 8 and not found):
 		x += 1
 		y += 1
 		if ((x, y) in samecolourpiece):
-			found = true
+			found = True
 			samecost += 1
 		elif ((x, y) in differentcolourpiece):
-			found = true
+			found = True
 			differentcost += 1
 
 	#Down-Right
 	x = position[0]
 	y = position[1]
-	found = false
+	found = False
 	while(x < 8 and y > 1 and not found):
 		x += 1
 		y -= 1
 		if ((x, y) in samecolourpiece):
-			found = true
+			found = True
 			samecost += 1
 		elif ((x, y) in differentcolourpiece):
-			found = true
+			found = True
 			differentcost += 1
 
 	#Down-Left
 	x = position[0]
 	y = position[1]
-	found = false
+	found = False
 	while(x > 1 and y > 1 and not found):
 		x -= 1
 		y -= 1
 		if ((x, y) in samecolourpiece):
-			found = true
+			found = True
 			samecost += 1
 		elif ((x, y) in differentcolourpiece):
-			found = true
+			found = True
 			differentcost += 1
 
 	#Up-Left
 	x = position[0]
 	y = position[1]
-	found = false
+	found = False
 	while(x > 1 and y < 8 and not found):
 		x -= 1
 		y += 1
 		if ((x, y) in samecolourpiece):
-			found = true
+			found = True
 			samecost += 1
 		elif ((x, y) in differentcolourpiece):
-			found = true
+			found = True
 			differentcost += 1
 
 	return (samecost, differentcost)
@@ -96,53 +97,53 @@ def rookcost(position, samecolourpiece, differentcolourpiece):
 	#Right
 	x = position[0]
 	y = position[1]
-	found = false
+	found = False
 	while(x < 8 and not found):
 		x += 1
 		if ((x, y) in samecolourpiece):
-			found = true
+			found = True
 			samecost += 1
 		elif ((x, y) in differentcolourpiece):
-			found = true
+			found = True
 			differentcost += 1
 
 	#Left
 	x = position[0]
 	y = position[1]
-	found = false
+	found = False
 	while(x > 1 and not found):
 		x -= 1
 		if ((x, y) in samecolourpiece):
-			found = true
+			found = True
 			samecost += 1
 		elif ((x, y) in differentcolourpiece):
-			found = true
+			found = True
 			differentcost += 1
 
 	#Up
 	x = position[0]
 	y = position[1]
-	found = false
+	found = False
 	while(y < 8 and not found):
 		y += 1
 		if ((x, y) in samecolourpiece):
-			found = true
+			found = True
 			samecost += 1
 		elif ((x, y) in differentcolourpiece):
-			found = true
+			found = True
 			differentcost += 1
 
 	#Down
 	x = position[0]
 	y = position[1]
-	found = false
+	found = False
 	while(y > 1 and not found):
 		y -= 1
 		if ((x, y) in samecolourpiece):
-			found = true
+			found = True
 			samecost += 1
 		elif ((x, y) in differentcolourpiece):
-			found = true
+			found = True
 			differentcost += 1
 
 	return (samecost, differentcost)
@@ -151,8 +152,8 @@ def queencost(position, samecolourpiece, differentcolourpiece):
 	samecostorthogonal, differentcostorthogonal = rookcost(position, samecolourpiece, differentcolourpiece)
 	samecostdiagonal, differentcostdiagonal = bishopcost(position, samecolourpiece, differentcolourpiece)
 
-	samecost = samecostorthogonal + samecostdiagonal;
-	differentcost = differentcostorthogonal + differentcostdiagonal;
+	samecost = samecostorthogonal + samecostdiagonal
+	differentcost = differentcostorthogonal + differentcostdiagonal
 
 	return (samecost, differentcost)
 
@@ -175,9 +176,9 @@ def knightcost(position, samecolourpiece, differentcolourpiece):
 
 	for coordinate in coordinates:
 		if coordinate in samecolourpiece:
-			samecost += 1;
+			samecost += 1
 		elif coordinate in differentcolourpiece:
-			differentcost += 1;
+			differentcost += 1
 
 	return (samecost, differentcost)
 
