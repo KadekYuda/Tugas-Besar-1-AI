@@ -29,6 +29,4 @@ def print_board(piece_list):
 
 def compare_heuristic_greater(greater_tuple, lesser_tuple):
     # TODO: Ubah fungsi mengikuti spek
-    greater_tuple_val = greater_tuple[0]+greater_tuple[1]
-    lesser_tuple_val = lesser_tuple[0]+lesser_tuple[1]
-    return greater_tuple_val > lesser_tuple_val
+    return (greater_tuple[0] < lesser_tuple[0]) and (greater_tuple[1] > lesser_tuple[1])
