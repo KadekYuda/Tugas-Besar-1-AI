@@ -6,7 +6,7 @@ def eval(blackpiece, blackpos, whitepiece, whitepos):
 
 
 	for i, piece in enumerate(blackpiece):
-		piecepos = blackpos[1]
+		piecepos = blackpos[i]
 
 		if(piece == 'R'):
 			same, different = rookcost(piecepos, blackpos, whitepos)
@@ -22,6 +22,26 @@ def eval(blackpiece, blackpos, whitepiece, whitepos):
 			differentcost += different
 		elif(piece == 'K'):
 			same, different = knightcost(piecepos, blackpos, whitepos)
+			samecost += same
+			differentcost += different
+
+	for i, piece in enumerate(whitepos):
+		piecepos = whitepos[i]
+
+		if(piece == 'R'):
+			same, different = rookcost(piecepos, whitepos, blackpos)
+			samecost += same
+			differentcost += different
+		elif(piece == 'B'):
+			same, different = bishopcost(piecepos, whitepos, blackpos)
+			samecost += same
+			differentcost += different
+		elif(piece == 'Q'):
+			same, different = queencost(piecepos, whitepos, blackpos)
+			samecost += same
+			differentcost += different
+		elif(piece == 'K'):
+			same, different = knightcost(piecepos, whitepos, blackpos)
 			samecost += same
 			differentcost += different
 
