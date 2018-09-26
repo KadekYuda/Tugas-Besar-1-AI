@@ -39,13 +39,15 @@ def place_pieces(white, black):
 
     for i in range(len(white)):
         new_loc = (random(1, 8), random(1, 8))
-        if new_loc not in white_locs and new_loc not in black_locs:
-            white_locs.append(new_loc)
+        while new_loc in white_locs or new_loc in black_locs:
+            new_loc = (random(1, 8), random(1, 8))
+        white_locs.append(new_loc)
 
     for i in range(len(black)):
         new_loc = (random(1, 8), random(1, 8))
-        if new_loc not in white_locs and new_loc not in black_locs:
-            black_locs.append(new_loc)
+        while new_loc in white_locs or new_loc in black_locs:
+            new_loc = (random(1, 8), random(1, 8))
+        black_locs.append(new_loc)
     
     # Generate random locations for all pieces
     # for i in range(num_black + num_white):

@@ -24,9 +24,11 @@ def print_board(piece_list):
         bpiece = blackpieces[i].lower()
         board[bpos[0]-1][bpos[1]-1] = bpiece
 
-    for i in range(len(board)):
-        print(board[i])
+    for row in board:
+        for column in row:
+            print(column, end ='')
+        print()
 
 def compare_heuristic_greater(greater_tuple, lesser_tuple):
     # TODO: Ubah fungsi mengikuti spek
-    return (greater_tuple[0] < lesser_tuple[0]) and (greater_tuple[1] > lesser_tuple[1])
+    return (greater_tuple[1] - greater_tuple [0]) > (lesser_tuple[1] - lesser_tuple[0])
