@@ -11,8 +11,8 @@ def hillclimb(input_file):
     current_heuristic_val = eval(current_state[2],current_state[3],current_state[0],current_state[1])
     max_heuristic_val = current_heuristic_val
     running = True
-    print_board(current_state)
-    print(max_heuristic_val)
+    #print_board(current_state)
+    #print(max_heuristic_val)
     while running:
         new_state = find_next_state(current_state)
         new_state_heuristic_val = eval(new_state[2],new_state[3],new_state[0],new_state[1])
@@ -36,7 +36,7 @@ def find_next_state(current_state):
         for i in range(1,9):
             for j in range(1,9):
                 testing_place = (i,j)
-                if not(testing_place in test_state[1]) or not(testing_place in test_state[3]):
+                if not(testing_place in test_state[1]) and not(testing_place in test_state[3]):
                     #print(test_state)
                     test_state[1].pop(idx)
                     test_state[1].insert(idx, testing_place)
@@ -50,7 +50,7 @@ def find_next_state(current_state):
         for i in range(1,9):
             for j in range(1,9):
                 testing_place = (i,j)
-                if not(testing_place in test_state[1]) or not(testing_place in test_state[3]):
+                if not(testing_place in test_state[1]) and not(testing_place in test_state[3]):
                     #print(test_state)
                     test_state[3].pop(idx)
                     test_state[3].insert(idx, testing_place)

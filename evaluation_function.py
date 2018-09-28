@@ -5,8 +5,7 @@ def eval(blackpiece, blackpos, whitepiece, whitepos):
 	differentcost = 0
 
 	for i, piece in enumerate(whitepiece):
-		piecepos = whitepos[i-1]
-
+		piecepos = whitepos[i]
 		if(piece == 'R'):
 			same, different = rookcost(piecepos, whitepos, blackpos)
 			samecost += same
@@ -26,8 +25,7 @@ def eval(blackpiece, blackpos, whitepiece, whitepos):
 
 
 	for i, piece in enumerate(blackpiece):
-		piecepos = blackpos[i-1]
-
+		piecepos = blackpos[i]
 		if(piece == 'R'):
 			same, different = rookcost(piecepos, blackpos, whitepos)
 			samecost += same
