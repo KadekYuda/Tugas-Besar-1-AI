@@ -1,5 +1,6 @@
 from random import randint as random
 
+
 def parse_file(filename):
     '''
     Opens specified input file and parses it
@@ -48,10 +49,10 @@ def place_pieces(white, black):
         while new_loc in white_locs or new_loc in black_locs:
             new_loc = (random(1, 8), random(1, 8))
         black_locs.append(new_loc)
-    
+
     # Generate random locations for all pieces
     # for i in range(num_black + num_white):
-        # new_loc = (random(1, 9), random(1, 9)) 
+        # new_loc = (random(1, 9), random(1, 9))
         # if new_loc not in locs:
             # locs.append(new_loc)
         # print(locs)
