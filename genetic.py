@@ -15,19 +15,26 @@ def generate_distribution(frequencies):
     return [x / total_frequency for x in frequencies]
 
 
-def distribution_random_choice(pop, distribution):
+def distribution_random_choice(pop, distribution, inverse=False):
     '''
     Chooses a random item out of pop with probability for each item as given
     in 'distribution'
     '''
 
     choice_value = uniform(0, 1)
-    temp_sum = 0
 
-    for i in range(len(distribution)):
-        temp_sum += distribution[i]
-        if choice_value <= temp_sum:
-            return distribution[i]
+    if not inverse:
+        temp_sum = 0
+        for i in range(len(distribution)):
+            temp_sum += distribution[i]
+            if choice_value <= temp_sum:
+                return pop[i]
+    else:
+        temp_sum = 1
+        for i in range(len(distribution)):
+            temp_sum -= distribution[i]
+            if choice_value >= temp_sum:
+                return pop[i]
 
 
 def crossover(x, y):
@@ -40,7 +47,7 @@ def crossover(x, y):
     return (x[:pos] + y[pos:], y[:pos] + x[pos:])
 
 
-def mutate(l, prob=0.03):
+def mutate(l, prob=0.05):
     '''
     Randomly mutate each item within given list 'l'
     '''
@@ -51,9 +58,10 @@ def mutate(l, prob=0.03):
             while mutated_position in l:
                 mutated_position = (randint(1, 8), randint(1, 8))
             l[i] = mutated_position
+    return l
 
 
-def genetic_selection(white_pop, black_pop, target_pop_size):
+def genetic_selection(white, white_pop, black, black_pop, target_pop_size):
     '''
     Generates next generation of population of size 'target_pop_size'
     out of white_pop and black_pop
@@ -65,7 +73,17 @@ def genetic_selection(white_pop, black_pop, target_pop_size):
         black_pos = black_pop[i]
         white_pos = white_pop[i]
         (samecost, diffcost) = eval(black, black_pos, white, white_pos)
-        costs.append(diffcost - samecost)
+        cost = diffcost - samecost
+        if cost >= 0:
+            costs.append(diffcost - samecost)
+        else:
+            costs.append(0)
+
+    # Ensure no cost is negative by adding all cost by the smallest negative
+    # value + 1(if it exists)
+    least_cost = min(costs)
+    if least_cost <= 0:
+        costs = [x - least_cost + 1 for x in costs]
 
     # Generate probability distribution for selecting the parents
     distribution = generate_distribution(costs)
@@ -83,9 +101,9 @@ def genetic_selection(white_pop, black_pop, target_pop_size):
     # Do crossover of every pair of parents
     children = []
 
-    for i in range(target_pop_size):
-        parent1 = white_pop[2 * i] + black_pop[2 * i + 1]
-        parent2 = white_pop[2 * i] + black_pop[2 * i + 1]
+    for i in range(target_pop_size//2):
+        parent1 = white_pop[parents[2 * i]] + black_pop[parents[2 * i + 1]]
+        parent2 = white_pop[parents[2 * i]] + black_pop[parents[2 * i + 1]]
         (children1, children2) = crossover(parent1, parent2)
         children.append(children1)
         children.append(children2)
@@ -101,10 +119,10 @@ def genetic_selection(white_pop, black_pop, target_pop_size):
         white_children.append(children[i][:white_length])
         black_children.append(children[i][white_length:])
 
-        return (white_children, black_children)
+    return (white_children, black_children)
 
 
-def genetic(white, black, init_pop=16, epoc_length = 10):
+def genetic(white, black, init_pop=4096, epoc_length=1000):
     '''
     Uses genetic algorithm to calculate the most optimal placement for
     given combination of pieces. Initial population size uses given parameter
@@ -118,6 +136,8 @@ def genetic(white, black, init_pop=16, epoc_length = 10):
     # Generate initial population
     for _ in range(init_pop):
         (white_pos, black_pos) = generate_position(white, black)
+        while white_pos in white_placements and black_pos in black_placements:
+            (white_pos, black_pos) = generate_position(white, black)
         white_placements.append(white_pos)
         black_placements.append(black_pos)
 
@@ -125,15 +145,15 @@ def genetic(white, black, init_pop=16, epoc_length = 10):
     current_epoch = 0
     target_pop = init_pop
     while target_pop >= 2:
-        current_epoch++
+        current_epoch += 1
         # Generate next generation's population
-        children = genetic_selection(white_placements, black_placements, target_pop)
+        children = genetic_selection(white, white_placements, black, black_placements, target_pop)
         white_placements = children[0]
         black_placements = children[1]
 
         if current_epoch == 10:
             current_epoch = 0
-            target_pop /= 2
+            target_pop //= 2
 
     # If only the final two individuals remain, choose the best between both
     cost1 = eval(black, black_placements[0], white, white_placements[0])
