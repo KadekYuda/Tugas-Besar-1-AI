@@ -1,27 +1,21 @@
 from parse import parse_file, place_pieces
 from evaluation_function import eval
-from util import print_board, compare_heuristic_greater
+from util import print_board, compare_heuristic_greater, find_next_state
 import copy
 import math
 import random
 
 def update_temperature(T):
-    return T*(1-0.003)
+    return T*(1-0.3)
 
 def acceptance_probabilty(temperature, delta):
 	x = delta / temperature
-	p = math.exp(-x)
+	p = math.exp(x)
 	r = random.random()
-	print("p: " + str(p))
-	print("r: " + str(r))
 	return (r < p)
 
-def delta(next_state_heuristic, current_state_heuristic):
-    return (next_state_heuristic[1] - next_state_heuristic [0]) - (current_state_heuristic[1] - current_state_heuristic[0])
-
-def randomize_move(white, black):
-	white_locs, black_locs = place_pieces(white, black)
-	return (white, white_locs, black, black_locs)
+def delta(current_state_heuristic, next_state_heuristic):
+    return (current_state_heuristic[1] - current_state_heuristic[0]) - (next_state_heuristic[1] - next_state_heuristic [0])
 
 def simulated_annealing(input_file):
 	current_state = parse_file(input_file)
@@ -29,23 +23,20 @@ def simulated_annealing(input_file):
 	current_heuristic_val = eval(current_state[2],current_state[3],current_state[0],current_state[1])
 	max_state = current_state
 	max_heuristic_val = current_heuristic_val
-	T = 10000
+	T = 100000
 	while (T > 0.1):
-		new_state = randomize_move(current_state[0], current_state[2])
+		new_state = find_next_state(current_state)
 		new_state_heuristic_val = eval(new_state[2],new_state[3],new_state[0],new_state[1])
-		d = delta(new_state_heuristic_val, current_heuristic_val)
-		# print(d)
+		d = delta(current_heuristic_val, new_state_heuristic_val)
 		if d > 0:
 			current_state = new_state
 			current_heuristic_val = new_state_heuristic_val
 			state_list.append(current_state)
-			print("Next lebih bagus dari current")
 		else:
 			if (acceptance_probabilty(T,d)):
 				current_state = new_state
 				current_heuristic_val = new_state_heuristic_val
 				state_list.append(current_state)
-				print("Next hasil gacha")
 		
 		if (compare_heuristic_greater(current_heuristic_val,max_heuristic_val)):
 			max_heuristic_val = current_heuristic_val
