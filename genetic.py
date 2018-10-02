@@ -1,5 +1,7 @@
 from evaluation_function import eval
 from parse import place_pieces as generate_position
+from parse import parse_file
+from util import print_board
 from random import uniform
 from random import randint
 
@@ -165,3 +167,10 @@ def genetic(white, black, init_pop=4096, epoc_length=1000):
         return (white_placements[0], black_placements[0])
     else:
         return (white_placements[1], black_placements[1])
+
+def genetic_algorithm(input_file, init_pop=4096, epoc_length=1000):
+    state = parse_file(input_file)
+    genetic_result = genetic(state[0], state[1], init_pop, epoc_length)
+    new_state = (state[0], genetic_result[0], state[2], state[1])
+    print_board(new_state)
+    print(eval(new_state[2], new_state[3], new_state[0], new_state[1]))
