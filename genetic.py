@@ -170,7 +170,7 @@ def genetic(white, black, init_pop=4096, epoc_length=1000):
 
 def genetic_algorithm(input_file, init_pop=4096, epoc_length=1000):
     state = parse_file(input_file)
-    genetic_result = genetic(state[0], state[1], init_pop, epoc_length)
-    new_state = (state[0], genetic_result[0], state[2], state[1])
+    genetic_result = genetic(state[0], state[2], init_pop, epoc_length)
+    new_state = (state[0], genetic_result[0], state[2], genetic_result[1])
     print_board(new_state)
     print(eval(new_state[2], new_state[3], new_state[0], new_state[1]))
